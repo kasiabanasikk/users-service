@@ -4,9 +4,11 @@ import com.spotify.usersservice.UserRepository;
 import com.spotify.usersservice.dto.User;
 import com.spotify.usersservice.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +18,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(String id) {
-        return userRepository.findById(id).get();
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElse(null);
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 
     @Override
@@ -26,6 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
+        user.setPassword(encodePassword(user.getPassword()));
         userRepository.save(user);
+    }
+
+    private String encodePassword(String password){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder.encode(password);
     }
 }
