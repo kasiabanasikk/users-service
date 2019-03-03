@@ -38,8 +38,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-    private String encodePassword(String password){
+    @Override
+    public String encodePassword(String password){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder.encode(password);
+    }
+
+    @Override
+    public boolean checkPassword(String password, String hashedPass){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder.matches(password, hashedPass);
     }
 }

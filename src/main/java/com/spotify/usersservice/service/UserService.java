@@ -9,4 +9,6 @@ public interface UserService {
     User getUserByLogin(String login);
     List<User> getAllUsers();
     void addUser(User user);
+    String encodePassword(String password);
+    boolean checkPassword(String password, String hashedPass);
 }
