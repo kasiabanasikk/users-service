@@ -43,4 +43,9 @@ public class UserController {
         }
         return "Login or password incorrect";
     }
+
+    @DeleteMapping(path = "/users/{id}")
+    public User updateUser(@PathVariable String id){
+        userService.deleteUser(id);
+    }
 }
