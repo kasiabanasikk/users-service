@@ -2,9 +2,9 @@ package com.spotify.usersservice.service.impl;
 
 import com.spotify.usersservice.UserRepository;
 import com.spotify.usersservice.dto.User;
+import com.spotify.usersservice.service.EncodingService;
 import com.spotify.usersservice.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    EncodingService encodingService;
 
     @Override
     public User getUser(String id) {
@@ -34,19 +35,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        user.setPassword(encodePassword(user.getPassword()));
+        user.setPassword(encodingService.encodePassword(user.getPassword()));
         userRepository.save(user);
     }
 
     @Override
-    public String encodePassword(String password){
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder.encode(password);
+    public void updateUser(String id, User user) {
+        Optional<User> userOptional = userRepository.findById(id);
+        User userFromDb;
+        if(userOptional.isPresent()){
+            userFromDb = userOptional.get();
+            userFromDb.setLogin(user.getLogin());
+            userFromDb.setPassword(encodingService.encodePassword(user.getPassword()));
+            userRepository.save(userFromDb);
+        }
     }
 
-    @Override
-    public boolean checkPassword(String password, String hashedPass){
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder.matches(password, hashedPass);
-    }
+
 }

@@ -1,6 +1,7 @@
 package com.spotify.usersservice.controller;
 
 import com.spotify.usersservice.dto.User;
+import com.spotify.usersservice.service.EncodingService;
 import com.spotify.usersservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 public class UserController {
 
     UserService userService;
+    EncodingService encodingService;
 
     @GetMapping(path = "/users/{id}")
     public User getUser(@PathVariable String id){
@@ -26,5 +28,19 @@ public class UserController {
     @PostMapping(path = "/users")
     public void addUser(@RequestBody User user){
         userService.addUser(user);
+    }
+
+    @PutMapping(path = "/users/{id}")
+    public void updateUser(@PathVariable String id, @RequestBody User user){
+        userService.updateUser(id, user);
+    }
+
+    @PostMapping(path = "/authentication")
+    public String checkUser(@RequestBody User user){
+        User userFromDb = userService.getUserByLogin(user.getLogin());
+        if(null != userFromDb && encodingService.checkPassword(user.getPassword(), userFromDb.getPassword())){
+            return "Login and password correct";
+        }
+        return "Login or password incorrect";
     }
 }
