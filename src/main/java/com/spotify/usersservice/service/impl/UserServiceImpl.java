@@ -34,21 +34,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setPassword(encodingService.encodePassword(user.getPassword()));
         userRepository.save(user);
+        return user;
     }
 
     @Override
-    public void updateUser(String id, User user) {
+    public User updateUser(String id, User user) {
         Optional<User> userOptional = userRepository.findById(id);
-        User userFromDb;
+        User userFromDb = null;
         if(userOptional.isPresent()){
             userFromDb = userOptional.get();
             userFromDb.setLogin(user.getLogin());
             userFromDb.setPassword(encodingService.encodePassword(user.getPassword()));
             userRepository.save(userFromDb);
         }
+        return userFromDb;
     }
 
 

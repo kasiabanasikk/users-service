@@ -26,13 +26,13 @@ public class UserController {
     }
 
     @PostMapping(path = "/users")
-    public void addUser(@RequestBody User user){
-        userService.addUser(user);
+    public User addUser(@RequestBody User user){
+        return userService.addUser(user);
     }
 
     @PutMapping(path = "/users/{id}")
-    public void updateUser(@PathVariable String id, @RequestBody User user){
-        userService.updateUser(id, user);
+    public User updateUser(@PathVariable String id, @RequestBody User user){
+        return userService.updateUser(id, user);
     }
 
     @PostMapping(path = "/authentication")
