@@ -1,6 +1,6 @@
 package com.spotify.usersservice.service;
 
-import com.spotify.usersservice.dto.User;
+import com.spotify.usersservice.dao.User;
 
 import java.util.List;
 

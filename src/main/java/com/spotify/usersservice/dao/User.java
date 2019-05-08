@@ -1,4 +1,4 @@
-package com.spotify.usersservice.dto;
+package com.spotify.usersservice.dao;
 
 
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.spotify.usersservice.controller;
 
-import com.spotify.usersservice.dto.User;
+import com.spotify.usersservice.dao.User;
 import com.spotify.usersservice.service.EncodingService;
 import com.spotify.usersservice.service.UserService;
 import lombok.AllArgsConstructor;

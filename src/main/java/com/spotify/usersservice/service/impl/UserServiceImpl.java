@@ -1,7 +1,7 @@
 package com.spotify.usersservice.service.impl;
 
 import com.spotify.usersservice.UserRepository;
-import com.spotify.usersservice.dto.User;
+import com.spotify.usersservice.dao.User;
 import com.spotify.usersservice.service.EncodingService;
 import com.spotify.usersservice.service.UserService;
 import lombok.AllArgsConstructor;
